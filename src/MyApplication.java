@@ -1,26 +1,40 @@
-import models.Point;
-import models.Shape;
-
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
-public class MyApplication {
-    public static void main(String[] args) throws FileNotFoundException {
-        File file = new File("/Users/a.khaimuldin/IdeaProjects/assignment1se2313/src/source");
+public class Main {
+    public static void main(String[] args) {
 
-        Scanner sc = new Scanner(file);
-        Shape shape = new Shape();
+        List<Point> points = new ArrayList<>();
 
-        while (sc.hasNext()) {
-            double x = sc.nextDouble();
-            double y = sc.nextDouble();
+        try {
+            File file = new File("points.txt");
+            Scanner scanner = new Scanner(file);
 
-            Point point = new Point(x, y);
-            shape.addPoint(point);
+            while (scanner.hasNextDouble()) {
+                double x = scanner.nextDouble();
+                double y = scanner.nextDouble();
+                points.add(new Point(x, y));
+            }
+
+            scanner.close();
+
+        } catch (FileNotFoundException e) {
+            System.out.println("Error: file not found");
+            return;
         }
 
-        System.out.println(shape.calculatePerimeter());
-        System.out.println(shape.getLongest());
+        Shape shape = new Shape(points);
+
+        System.out.println("List of points:");
+        for (Point p : points) {
+            System.out.println(p);
+        }
+
+        System.out.println("Perimeter of the figure: " + shape.calculatePerimeter());
+        System.out.println("The longest side: " + shape.longestSide());
+        System.out.println("Average side length: " + shape.averageSide());
     }
 }
