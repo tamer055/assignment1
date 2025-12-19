@@ -1,13 +1,41 @@
-package models;
+import java.util.List;
 
 public class Shape {
-    // container of Points (e.g. ArrayList<Point>)
+    private List<Point> points;
 
-    // addPoint(Point) - adds to the container
+    public Shape(List<Point> points) {
+        this.points = points;
+    }
 
-    // calculatePerimeter()
+    public double calculatePerimeter() {
+        double perimeter = 0;
 
-    // getAverageSide()
+        for (int i = 0; i < points.size(); i++) {
+            Point current = points.get(i);
+            Point next = points.get((i + 1) % points.size());
+            perimeter += current.distanceTo(next);
+        }
 
-    // getLongestSide()
+        return perimeter;
+    }
+
+    public double longestSide() {
+        double max = 0;
+
+        for (int i = 0; i < points.size(); i++) {
+            Point current = points.get(i);
+            Point next = points.get((i + 1) % points.size());
+            double distance = current.distanceTo(next);
+
+            if (distance > max) {
+                max = distance;
+            }
+        }
+
+        return max;
+    }
+
+    public double averageSide() {
+        return calculatePerimeter() / points.size();
+    }
 }
